@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My 3D Link Website</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap');
+
+        /* Apply cursor none globally to ensure the default cursor is always hidden */
+        html {
+            cursor: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 1000px;
+        }
+
+        .shape {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            opacity: 0.8;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: background-color 0.5s ease;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-family: 'Bubbler One', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        nav {
+            margin-bottom: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            cursor: none;
+            font-family: 'Bubbler One', sans-serif;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        nav a:hover, nav a:active {
+            color: #ff00ff;
+            cursor: none !important;
+            transform: scale(1.1);
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff00ff;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        nav a:hover::before {
+            transform: scaleX(1);
+        }
+
+        .cursor {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            pointer-events: none;
+            z-index: 1000;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .cursor.active {
+            width: 50px;
+            height: 50px;
+        }
+
+        .cursor-trail {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .trail-line {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: particle-move 10s infinite linear;
+        }
+
+        @keyframes particle-move {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="shape">
+            <div class="face" style="transform: translateZ(150px); background-color: #ff0000; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+            <div class="face" style="transform: translateZ(-150px); background-color: #00ff00; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+            <div class="face" style="transform: translateX(150px) rotateY(90deg); background-color: #0000ff; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+            <div class="face" style="transform: translateX(-150px) rotateY(-90deg); background-color: #ffff00; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+            <div class="face" style="transform: translateY(150px) rotateX(90deg); background-color: #00ffff; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+            <div class="face" style="transform: translateY(-150px) rotateX(-90deg); background-color: #ff00ff; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Welcome to Speedy's Links</h1>
+        <nav>
+            <a href="https://speedycreates.artstation.com" target="_blank">ArtStation</a>
+            <a href="https://www.linkedin.com/in/aaron-reynolds-645701276/" target="_blank">LinkedIn</a>
+            <a href="https://twitter.com/SpeedyCreates" target="_blank">Twitter</a>
+            <a href="https://www.youtube.com/channel/UCQzqyM5j8pKwrpshduWzCLw" target="_blank">Youtube</a>
+        </nav>
+    </div>
+
+    <div class="cursor"></div>
+
+    <div class="background">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <!-- Add more particle elements as desired -->
+    </div>
+
+    <script>
+        // Get the shape, cursor, and content elements
+        const shapeElement = document.querySelector('.shape');
+        const cursorElement = document.querySelector('.cursor');
+        const contentElement = document.querySelector('.content');
+
+        // Function to generate random colors
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Function to update the shape colors
+        function updateShapeColors() {
+            const faces = document.querySelectorAll('.face');
+            faces.forEach(face => {
+                face.style.backgroundColor = getRandomColor();
+            });
+        }
+
+        // Update the shape colors every 1 second
+        setInterval(updateShapeColors, 1000);
+
+        // Mouse move event to rotate the 3D shape and move the cursor
+        document.addEventListener('mousemove', (e) => {
+            const cursorX = e.clientX;
+            const cursorY = e.clientY;
+
+            cursorElement.style.left = `${cursorX}px`;
+            cursorElement.style.top = `${cursorY}px`;
+
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            const rotateX = (cursorY - centerY) * 0.1;
+            const rotateY = (cursorX - centerX) * 0.1;
+
+            shapeElement.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        // Create cursor trail effect
+        const trailElement = document.createElement('div');
+        trailElement.classList.add('cursor-trail');
+        document.body.appendChild(trailElement);
+
+        let trailX = 0;
+        let trailY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            const trailLine = document.createElement('div');
+            trailLine.classList.add('trail-line');
+            trailLine.style.left = `${trailX}px`;
+            trailLine.style.top = `${trailY}px`;
+            trailLine.style.width = `${Math.sqrt((e.clientX - trailX) ** 2 + (e.clientY - trailY) ** 2)}px`;
+            trailLine.style.transform = `rotate(${Math.atan2(e.clientY - trailY, e.clientX - trailX)}rad)`;
+            trailElement.appendChild(trailLine);
+
+            setTimeout(() => {
+                trailLine.style.opacity = 0;
+                setTimeout(() => {
+                    trailLine.remove();
+                }, 300);
+            }, 500);
+
+            trailX = e.clientX;
+            trailY = e.clientY;
+        });
+
+        // Function to generate random particles
+        function generateParticles() {
+            const container = document.querySelector('.background');
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            container.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 10000);
+        }
+
+        // Generate a new particle every 0.5 seconds
+        setInterval(generateParticles, 500);
+
+        // Add and remove active class on cursor when hovering over links
+        const links = document.querySelectorAll('nav a');
+        links.forEach(link => {
+            link.addEventListener('mouseover', () => {
+                cursorElement.classList.add('active');
+            });
+
+            link.addEventListener('mouseout', () => {
+                cursorElement.classList.remove('active');
+            });
+        });
+
+        // Parallax effect on content
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 2 - 1;
+            const y = (e.clientY / window.innerHeight) * 2 - 1;
+
+            contentElement.style.transform = `translate(-50%, -50%) translate(${x * 20}px, ${y * 20}px)`;
+        });
+    </script>
+</body>
+</html>
